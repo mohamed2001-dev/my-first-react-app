@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { useState } from "react"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
@@ -12,6 +13,24 @@ import Form from "./components/Form"
 
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  // ➤ add to cart logic
+  const addToCart = (product) => {
+    const exist = cart.find((item) => item.id === product.id);
+
+    if (exist) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, qty: item.qty + 1 }
+            : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...product, qty: 1 }]);
+    }
+  };
 
   return (
     <BrowserRouter>
@@ -22,8 +41,8 @@ function App() {
       <Route path="/about" element={<About/>}></Route>
       <Route path="/contact" element={<Contact/>}></Route>
       <Route path="/products" element={<Products/>}></Route>
-      <Route path="/cart" element={<Cart/>}></Route>
-      <Route path="/products/:id" element={<SingleProduct/>}></Route>
+      <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>}></Route>
+      <Route path="/products/:id" element={<SingleProduct addToCart={addToCart} />}></Route>
       <Route path="/form" element={<Form/>}></Route>
     </Routes>
     <Footer/>

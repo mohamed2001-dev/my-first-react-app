@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-function SingleProduct() {
+function SingleProduct({ addToCart }) {
   const navigate = useNavigate()
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState(null);
@@ -58,7 +58,9 @@ function SingleProduct() {
           Shop Now
         </button>
 
-        <button className="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition cursor-pointer font-semibold shadow-md">
+        <button onClick={() => addToCart(singleProduct)}
+        className="flex-1 bg-blue-500 text-white py-3 rounded-lg
+        hover:bg-blue-600 transition cursor-pointer font-semibold shadow-md">
           Add to Cart
         </button>
       </div>
